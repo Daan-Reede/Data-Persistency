@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Reiziger {
     private int id;
@@ -9,6 +11,7 @@ public class Reiziger {
     private String achternaam;
     private Date geboortedatum;
     private Adres adres;
+    private List<OVChipkaart> OVChipkaarten;
 
     public Reiziger(int id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum){
         this.id = id;
@@ -17,6 +20,7 @@ public class Reiziger {
         this.achternaam = achternaam;
         this.geboortedatum = geboortedatum;
         this.adres = null;
+        this.OVChipkaarten = null;
     }
 
     public int getId() {
@@ -65,6 +69,14 @@ public class Reiziger {
 
     public Adres getAdres() {
         return adres;
+    }
+
+    public List<OVChipkaart> getOVChipkaarten() {
+        return OVChipkaarten;
+    }
+
+    public void setOVChipkaarten(List<OVChipkaart> OVChipkaarten) {
+        this.OVChipkaarten = OVChipkaarten;
     }
 
     @Override

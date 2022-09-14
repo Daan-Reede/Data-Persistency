@@ -9,6 +9,7 @@ import java.util.List;
 public class ReizigerDAOPsql implements ReizigerDAO {
 
     private Connection conn;
+    private OVChipkaartDAOPsql ovdao;
 
     public ReizigerDAOPsql(Connection conn){
         this.conn = conn;
@@ -33,8 +34,8 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             }
 
             return true;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return false;
         }
     }
@@ -54,8 +55,8 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             statement.setString(7, reiziger.getVoorletters());
             statement.executeUpdate();
             return true;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return false;
         }
     }
@@ -68,8 +69,8 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             statement.setInt(1, reiziger.getId());
             statement.executeUpdate();
             return true;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return false;
         }
     }
@@ -85,8 +86,8 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             Reiziger newReiziger = new Reiziger(resultSet.getInt("reiziger_id"), resultSet.getString("voorletters"),
                     resultSet.getString("tussenvoegsel"), resultSet.getString("achternaam"), resultSet.getDate("geboortedatum"));
             return newReiziger;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return null;
         }
     }
@@ -105,9 +106,10 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                         resultSet.getString("tussenvoegsel"), resultSet.getString("achternaam"), resultSet.getDate("geboortedatum"));
                 reizigers.add(newReiziger);
             }
+
             return reizigers;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return null;
         }
     }
@@ -124,11 +126,16 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                 Reiziger newReiziger = new Reiziger(resultSet.getInt("reiziger_id"), resultSet.getString("voorletters"),
                         resultSet.getString("tussenvoegsel"), resultSet.getString("achternaam"), resultSet.getDate("geboortedatum"));
                 reizigers.add(newReiziger);
+                newReiziger.setOVChipkaarten(ovdao.findByReiziger(newReiziger));
             }
             return reizigers;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return null;
         }
+    }
+
+    public void setOvdao(OVChipkaartDAOPsql ovdao) {
+        this.ovdao = ovdao;
     }
 }

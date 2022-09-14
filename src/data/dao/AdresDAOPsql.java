@@ -30,8 +30,8 @@ public class AdresDAOPsql implements AdresDAO {
             statement.executeUpdate();
 
             return true;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return false;
         }
     }
@@ -52,8 +52,8 @@ public class AdresDAOPsql implements AdresDAO {
             statement.executeUpdate();
 
             return true;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return false;
         }
     }
@@ -67,8 +67,8 @@ public class AdresDAOPsql implements AdresDAO {
             statement.executeUpdate();
 
             return true;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return false;
         }
     }
@@ -85,8 +85,8 @@ public class AdresDAOPsql implements AdresDAO {
             Adres foundAdres = new Adres(resultSet.getInt("adres_id"), resultSet.getString("postcode"),
                     resultSet.getString("huisnummer"), resultSet.getString("straat"), resultSet.getString("woonplaats"), reiziger);
             return foundAdres;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return null;
         }
     }
@@ -105,8 +105,8 @@ public class AdresDAOPsql implements AdresDAO {
                 addresses.add(newAdres);
             }
             return addresses;
-        } catch (SQLException exception){
-            System.out.print(exception.getMessage());
+        } catch (SQLException sqlex){
+            sqlex.printStackTrace();
             return null;
         }
     }
