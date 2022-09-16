@@ -19,8 +19,8 @@ public class Main {
         rdao.setAdao(adao);
         ovdao.setRdao(rdao);
 
-//        testReizigerDAO(rdao);
-//        testAdresDAO(adao, rdao);
+        testReizigerDAO(rdao);
+        testAdresDAO(adao, rdao);
         testOvChipDAO(ovdao, rdao);
         conn.close();
     }
