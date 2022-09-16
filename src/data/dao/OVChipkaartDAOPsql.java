@@ -31,7 +31,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
             List<OVChipkaart> OVChipkaarten = new ArrayList<>();
             while(resultSet.next()){
                 OVChipkaart ovChipkaart = new OVChipkaart(resultSet.getInt("kaart_nummer"), resultSet.getDate("geldig_tot"),
-                        resultSet.getInt("klasse"), resultSet.getDouble("saldo"), rdao.findById(resultSet.getInt("reiziger_id")));
+                        resultSet.getInt("klasse"), resultSet.getDouble("saldo"), reiziger);
                 OVChipkaarten.add(ovChipkaart);
             }
             return OVChipkaarten;

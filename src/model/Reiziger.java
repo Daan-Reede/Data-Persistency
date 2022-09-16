@@ -11,7 +11,7 @@ public class Reiziger {
     private String achternaam;
     private Date geboortedatum;
     private Adres adres;
-    private List<OVChipkaart> OVChipkaarten;
+    private List<OVChipkaart> OVChipkaarten = new ArrayList<>();
 
     public Reiziger(int id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum){
         this.id = id;
@@ -20,7 +20,6 @@ public class Reiziger {
         this.achternaam = achternaam;
         this.geboortedatum = geboortedatum;
         this.adres = null;
-        this.OVChipkaarten = null;
     }
 
     public int getId() {
@@ -77,6 +76,10 @@ public class Reiziger {
 
     public void setOVChipkaarten(List<OVChipkaart> OVChipkaarten) {
         this.OVChipkaarten = OVChipkaarten;
+    }
+
+    public void addOVChipkaart(OVChipkaart ov){
+        this.OVChipkaarten.add(ov);
     }
 
     @Override

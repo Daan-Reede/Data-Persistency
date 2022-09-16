@@ -1,5 +1,7 @@
 package data.dao;
 
+import model.Adres;
+import model.OVChipkaart;
 import model.Reiziger;
 
 import java.sql.*;
@@ -9,7 +11,8 @@ import java.util.List;
 public class ReizigerDAOPsql implements ReizigerDAO {
 
     private Connection conn;
-    private OVChipkaartDAOPsql ovdao;
+    private OVChipkaartDAO ovdao;
+    private AdresDAOPsql adao;
 
     public ReizigerDAOPsql(Connection conn){
         this.conn = conn;
@@ -28,9 +31,15 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             statement.setString(4, reiziger.getAchternaam());
             statement.setDate(5, reiziger.getGeboortedatum());
             statement.executeUpdate();
+
             if(reiziger.getAdres() != null){
-                AdresDAOPsql adao = new AdresDAOPsql(conn);
-                adao.save(reiziger.getAdres());
+                this.adao.save(reiziger.getAdres());
+            }
+
+            if(reiziger.getOVChipkaarten() != null || reiziger.getOVChipkaarten().size() != 0){
+                for(OVChipkaart ov : reiziger.getOVChipkaarten()){
+                    ovdao.save(ov);
+                }
             }
 
             return true;
@@ -64,10 +73,24 @@ public class ReizigerDAOPsql implements ReizigerDAO {
     @Override
     public boolean delete(Reiziger reiziger) {
         try {
+            List<OVChipkaart> allCards = ovdao.findByReiziger(reiziger);
+            // verwijder alle producten voor verwijderen reiziger
+            if(allCards != null){
+                for(OVChipkaart ov : allCards){
+                    ovdao.delete(ov);
+                }
+            }
+            Adres foundAdres = adao.findByReiziger(reiziger);
+
+            if(foundAdres != null){
+                adao.delete(foundAdres);
+            }
+
             String query = "DELETE FROM reiziger WHERE reiziger_id = ?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, reiziger.getId());
             statement.executeUpdate();
+
             return true;
         } catch (SQLException sqlex){
             sqlex.printStackTrace();
@@ -126,6 +149,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                 Reiziger newReiziger = new Reiziger(resultSet.getInt("reiziger_id"), resultSet.getString("voorletters"),
                         resultSet.getString("tussenvoegsel"), resultSet.getString("achternaam"), resultSet.getDate("geboortedatum"));
                 reizigers.add(newReiziger);
+//                newReiziger.setAdres(adao.findByReiziger(newReiziger));
                 newReiziger.setOVChipkaarten(ovdao.findByReiziger(newReiziger));
             }
             return reizigers;
@@ -137,5 +161,9 @@ public class ReizigerDAOPsql implements ReizigerDAO {
 
     public void setOvdao(OVChipkaartDAOPsql ovdao) {
         this.ovdao = ovdao;
+    }
+
+    public void setAdao(AdresDAOPsql adao) {
+        this.adao = adao;
     }
 }

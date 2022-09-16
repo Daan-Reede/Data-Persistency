@@ -16,10 +16,11 @@ public class Main {
         ReizigerDAOPsql rdao = new ReizigerDAOPsql(conn);
 
         rdao.setOvdao(ovdao);
+        rdao.setAdao(adao);
         ovdao.setRdao(rdao);
 
-        testReizigerDAO(rdao);
-        testAdresDAO(adao, rdao);
+//        testReizigerDAO(rdao);
+//        testAdresDAO(adao, rdao);
         testOvChipDAO(ovdao, rdao);
         conn.close();
     }
@@ -44,10 +45,11 @@ public class Main {
         List<Adres> addresses = adao.findAll();
         System.out.println("[Test] AdresDAO.findAll() bevat: " + addresses.size() + " addressen");
         Reiziger testReiziger = new Reiziger(6, "Test", "den", "testen", Date.valueOf("2022-11-11"));
-        Adres testadres = new Adres(70, "3333XL", "5", "Achterberg", "Ede", testReiziger);
-        testReiziger.setAdres(testadres);
-
         rdao.save(testReiziger);
+        Adres testadres = new Adres(70, "3333XL", "5", "Achterberg", "Ede", testReiziger);
+        adao.save(testadres);
+
+
         System.out.print("[Test] Adres tabel heeft nu een nieuw adres met id: " + testadres.getId() + "\n");
         List<Adres> addedAddresses = adao.findAll();
         System.out.println("[Test] AdresDAO.findAll() bevat: " + addedAddresses.size() + " addressen na AdresDAO.save()\n");
@@ -100,6 +102,8 @@ public class Main {
         // Maak een nieuwe reiziger aan en persisteer deze in de database
         String gbdatum = "1981-03-14";
         Reiziger sietskeOud = new Reiziger(77, "S", "", "Boers", Date.valueOf(gbdatum));
+        Adres testadres = new Adres(80, "2222XL", "5", "Achterberg", "Ede", sietskeOud);
+        sietskeOud.setAdres(testadres);
         System.out.print("[Test] Eerst " + reizigers.size() + " reizigers, na ReizigerDAO.save() ");
         rdao.save(sietskeOud);
         reizigers = rdao.findAll();
@@ -175,7 +179,7 @@ public class Main {
 
         OVdao.delete(testOV);
         List<OVChipkaart> OovChipKaartenAfterDelete = OVdao.findAll();
-        System.out.print("[Test] Alle ovchip kaarten voor OVChip.delete(): \n");
+        System.out.print("[Test] Alle ovchip kaarten na OVChip.delete(): \n");
         for (OVChipkaart kaart : OovChipKaartenAfterDelete) {
             System.out.println("kaart_nummer: " + kaart.getKaart_nummer());
         }
