@@ -1,10 +1,10 @@
-import data.dao.AdresDAOPsql;
-import data.dao.OVChipkaartDAOPsql;
-import data.dao.ReizigerDAOPsql;
+import data.dao.*;
 import model.Adres;
 import model.OVChipkaart;
+import model.Product;
 import model.Reiziger;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -14,14 +14,17 @@ public class Main {
         AdresDAOPsql adao = new AdresDAOPsql(conn);
         OVChipkaartDAOPsql ovdao = new OVChipkaartDAOPsql(conn);
         ReizigerDAOPsql rdao = new ReizigerDAOPsql(conn);
+        ProductDAOPsql pdao = new ProductDAOPsql(conn);
 
         rdao.setOvdao(ovdao);
         rdao.setAdao(adao);
         ovdao.setRdao(rdao);
+        pdao.setOvdao(ovdao);
 
-        testReizigerDAO(rdao);
-        testAdresDAO(adao, rdao);
-        testOvChipDAO(ovdao, rdao);
+//        testReizigerDAO(rdao);
+//        testAdresDAO(adao, rdao);
+//        testOvChipDAO(ovdao, rdao);
+        testProductDAO(pdao, rdao, ovdao);
         conn.close();
     }
 
@@ -30,6 +33,57 @@ public class Main {
         String usern = "postgres";
         String passw = "123";
         conn = DriverManager.getConnection(url, usern, passw);
+    }
+
+    private static void testProductDAO(ProductDAOPsql pdao, ReizigerDAOPsql rdao, OVChipkaartDAOPsql ovdao) {
+
+        /**
+         * P2. Product DAO: persistentie van een klasse
+         *
+         * Deze methode test de CRUD-functionaliteit van de Product DAO
+         *
+         * @throws SQLException
+         */
+        System.out.println("\n---------- Test ProductDAO -------------");
+
+        // Haal alle reizigers op uit de database
+        List<Product> products = pdao.findAll();
+        System.out.println("[Test] producten aantal: "+ products.size() + " voor ProductDAO.save()\n");
+
+        Product testproduct = new Product(10, "test", "test", 10.2);
+        OVChipkaart testOV = new OVChipkaart(99999, Date.valueOf("2022-10-26"), 2, 20.3, rdao.findById(1));
+        List<OVChipkaart> nieuwOVKaarten = new ArrayList<>();
+        nieuwOVKaarten.add(testOV);
+
+        testproduct.setOvChipKaarten(nieuwOVKaarten);
+        pdao.save(testproduct);
+
+        System.out.println("[Test] producten aantal: "+ pdao.findAll().size() + " na ProductDAO.save()");
+
+        List<Product> oldProducts = pdao.findAll();
+        System.out.println("[Test] voor update: ");
+        for (Product r : oldProducts) {
+            System.out.println(r.getNaam());
+        }
+
+        testproduct.setNaam("test2");
+        pdao.update(testproduct);
+
+        System.out.println("\n[Test] na update:");
+        List<Product> newProducts = pdao.findAll();
+        for (Product r : newProducts) {
+            System.out.println(r.getNaam());
+        }
+
+        pdao.delete(testproduct);
+        ovdao.delete(testOV);
+        System.out.println("\n[Test] producten aantal: "+ newProducts.size() + " voor ProductDAO.delete():");
+        System.out.println("[Test] producten aantal: "+ pdao.findAll().size() + " na ProductDAO.delete():");
+
+
+        for (Product product : pdao.findAll()) {
+            System.out.println(product);
+        }
     }
 
     private static void testAdresDAO(AdresDAOPsql adao, ReizigerDAOPsql rdao) {

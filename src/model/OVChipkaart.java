@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OVChipkaart {
     private int kaart_nummer;
@@ -8,6 +10,8 @@ public class OVChipkaart {
     private int klasse;
     private double saldo;
     private Reiziger reiziger;
+
+    private List<Product> producten = new ArrayList<>();
 
     public OVChipkaart (int kaart_nummer, Date geldig_tot, int klasse, double saldo, Reiziger reiziger){
         this.kaart_nummer = kaart_nummer;
@@ -55,5 +59,13 @@ public class OVChipkaart {
 
     public void setReiziger(Reiziger reiziger) {
         this.reiziger = reiziger;
+    }
+
+    public void setProducten(List<Product> producten) {
+        this.producten = producten;
+    }
+
+    public List<Product> getProducten() {
+        return producten;
     }
 }
