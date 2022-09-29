@@ -71,7 +71,6 @@ public class ProductDAOPsql implements ProductDAO {
             statement.setDouble(5, product.getId());
             statement.executeUpdate();
 
-                    // daarna koppelen
                     String secondQuery = "UPDATE ov_chipkaart_product SET status = ?, last_update = ? " +
                             "WHERE product_nummer = ?";
                     PreparedStatement pstatement = conn.prepareStatement(secondQuery);
@@ -90,16 +89,10 @@ public class ProductDAOPsql implements ProductDAO {
     @Override
     public boolean delete(Product product) {
         try {
-            // delete
-//            if(product.getOvChipKaarten().size() != 0){
-//                for (OVChipkaart ovChipkaart : product.getOvChipKaarten()) {
             String secondQuery = "DELETE FROM ov_chipkaart_product WHERE product_nummer = ?";
             PreparedStatement pstatement = conn.prepareStatement(secondQuery);
             pstatement.setInt(1, product.getId());
             pstatement.executeUpdate();
-//                    pstatement.executeUpdate();
-//                }
-//            }
 
             String query = "DELETE FROM product WHERE product_nummer = ?";
             PreparedStatement statement = conn.prepareStatement(query);
@@ -139,8 +132,9 @@ public class ProductDAOPsql implements ProductDAO {
         try {
             String query = "SELECT * FROM product p " +
                     "INNER JOIN ov_chipkaart_product ovcp ON ovcp.product_nummer = p.product_nummer" +
-                    "INNER JOIN ov_chipkaart ovc ON ovc.kaartnummer = ovcp.kaart_nummer" +
-                    "WHERE ovc.kaart_nummer = ?";
+                    " INNER JOIN ov_chipkaart ovc ON ovc.kaart_nummer = ovcp.kaart_nummer" +
+                    " WHERE ovc.kaart_nummer = ?";
+
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, ovChipkaart.getKaart_nummer());
             ResultSet resultSet = statement.executeQuery();

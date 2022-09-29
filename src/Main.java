@@ -19,11 +19,12 @@ public class Main {
         rdao.setOvdao(ovdao);
         rdao.setAdao(adao);
         ovdao.setRdao(rdao);
+        ovdao.setPdao(pdao);
         pdao.setOvdao(ovdao);
 
-//        testReizigerDAO(rdao);
-//        testAdresDAO(adao, rdao);
-//        testOvChipDAO(ovdao, rdao);
+        testReizigerDAO(rdao);
+        testAdresDAO(adao, rdao);
+        testOvChipDAO(ovdao, rdao);
         testProductDAO(pdao, rdao, ovdao);
         conn.close();
     }
@@ -77,13 +78,16 @@ public class Main {
 
         pdao.delete(testproduct);
         ovdao.delete(testOV);
-        System.out.println("\n[Test] producten aantal: "+ newProducts.size() + " voor ProductDAO.delete():");
-        System.out.println("[Test] producten aantal: "+ pdao.findAll().size() + " na ProductDAO.delete():");
-
+        System.out.println("\n[Test] producten aantal: "+ newProducts.size() + " voor ProductDAO.delete()");
+        System.out.println("[Test] producten aantal: "+ pdao.findAll().size() + " na ProductDAO.delete()");
 
         for (Product product : pdao.findAll()) {
             System.out.println(product);
         }
+
+//        for(OVChipkaart ov : ovdao.findAll()){
+//            System.out.println(ov.getProducten().toString());
+//        }
     }
 
     private static void testAdresDAO(AdresDAOPsql adao, ReizigerDAOPsql rdao) {
