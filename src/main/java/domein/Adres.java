@@ -1,6 +1,12 @@
-package model;
+package domein;
 
+import javax.persistence.*;
+
+@Entity
 public class Adres {
+
+    @Id
+    @Column(name = "adres_id")
     private int id;
     private String postcode;
 
@@ -9,6 +15,9 @@ public class Adres {
     private String straat;
 
     private String woonplaats;
+
+    @OneToOne
+    @JoinColumn(name = "reiziger_id")
     private Reiziger reiziger;
 
     public Adres(int id, String postcode, String huisnummer, String straat, String woonplaats, Reiziger reiziger) {
@@ -18,6 +27,10 @@ public class Adres {
         this.straat = straat;
         this.woonplaats = woonplaats;
         this.reiziger = reiziger;
+    }
+
+    public Adres() {
+
     }
 
     public void setReiziger(Reiziger reiziger) {

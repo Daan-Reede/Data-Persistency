@@ -1,8 +1,8 @@
 package data.dao;
 
-import model.Adres;
-import model.OVChipkaart;
-import model.Product;
+import domein.Adres;
+import domein.OVChipkaart;
+import domein.Product;
 
 import java.sql.*;
 import java.text.DateFormat;

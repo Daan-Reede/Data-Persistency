@@ -1,8 +1,8 @@
 package data.dao;
 
-import model.OVChipkaart;
-import model.Product;
-import model.Reiziger;
+import domein.OVChipkaart;
+import domein.Product;
+import domein.Reiziger;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package data.dao;
 
-import model.OVChipkaart;
-import model.Product;
+import domein.OVChipkaart;
+import domein.Product;
 
 import java.util.List;
 

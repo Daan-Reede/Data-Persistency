@@ -1,21 +1,36 @@
-package model;
+package domein;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Product {
+
+    @Id
+    @Column(name = "product_nummer")
     private int id;
     private String naam;
     private String beschrijving;
     private double prijs;
 
-    private List<OVChipkaart> ovChipKaarten = new ArrayList<>();
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "ov_chipkaart_product",
+            joinColumns = { @JoinColumn(name = "kaart_nummer") },
+            inverseJoinColumns = { @JoinColumn(name = "product_nummer") }
+    )
+    private List<OVChipkaart> ov_chipkaart = new ArrayList<>();
 
     public Product(int id, String naam, String beschrijving, double prijs){
         this.id = id;
         this.naam = naam;
         this.beschrijving = beschrijving;
         this.prijs = prijs;
+    }
+
+    public Product() {
+
     }
 
 
@@ -51,18 +66,19 @@ public class Product {
         return prijs;
     }
 
-    public void setOvChipKaarten(List<OVChipkaart> ovChipKaarten) {
-        this.ovChipKaarten = ovChipKaarten;
+    public void setOv_chipkaart(List<OVChipkaart> ovChipKaarten) {
+        this.ov_chipkaart = ovChipKaarten;
     }
 
-    public List<OVChipkaart> getOvChipKaarten() {
-        return ovChipKaarten;
+    public List<OVChipkaart> getOv_chipkaart() {
+        return ov_chipkaart;
     }
 
 
     @Override
     public String toString() {
-        return "product id: " + this.id +" en naam: "+this.getNaam() + " heeft " + ovChipKaarten.size() +
+        return "product id: " + this.id + " en naam: " + this.getNaam() + " heeft " +
                 " gekoppelde ovchipkaarten";
     }
+
 }

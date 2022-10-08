@@ -1,9 +1,9 @@
 package data.dao;
 
-import model.Adres;
-import model.OVChipkaart;
-import model.Product;
-import model.Reiziger;
+import domein.Adres;
+import domein.OVChipkaart;
+import domein.Product;
+import domein.Reiziger;
 
 import java.sql.*;
 import java.util.ArrayList;

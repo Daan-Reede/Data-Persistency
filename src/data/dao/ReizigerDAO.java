@@ -1,6 +1,6 @@
 package data.dao;
 
-import model.Reiziger;
+import domein.Reiziger;
 
 import java.util.List;
 

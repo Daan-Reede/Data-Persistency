@@ -1,16 +1,26 @@
-package model;
+package domein;
 
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Entity
 public class Reiziger {
+
+    @Id
+    @Column(name = "reiziger_id")
     private int id;
     private String voorletters;
     private String tussenvoegsel;
     private String achternaam;
     private Date geboortedatum;
+
+    @OneToOne(mappedBy = "reiziger")
     private Adres adres;
+
+    @OneToMany(mappedBy = "reiziger")
     private List<OVChipkaart> OVChipkaarten = new ArrayList<>();
 
     public Reiziger(int id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum){
@@ -19,7 +29,10 @@ public class Reiziger {
         this.tussenvoegsel = tussenvoegsel;
         this.achternaam = achternaam;
         this.geboortedatum = geboortedatum;
-        this.adres = null;
+    }
+
+    public Reiziger() {
+
     }
 
     public int getId() {
@@ -62,13 +75,13 @@ public class Reiziger {
         this.geboortedatum = geboortedatum;
     }
 
-    public void setAdres(Adres adres) {
-        this.adres = adres;
-    }
-
-    public Adres getAdres() {
-        return adres;
-    }
+//    public void setAdres(Adres adres) {
+//        this.adres = adres;
+//    }
+//
+//    public Adres getAdres() {
+//        return adres;
+//    }
 
     public List<OVChipkaart> getOVChipkaarten() {
         return OVChipkaarten;
@@ -84,6 +97,7 @@ public class Reiziger {
 
     @Override
     public String toString() {
-        return "Reiziger " + this.getVoorletters() + "." + (this.getTussenvoegsel() != null ? this.getTussenvoegsel() : "") + " " + this.getAchternaam();
+        return "Reiziger " + this.getVoorletters() + "." + (this.getTussenvoegsel() != null ? this.getTussenvoegsel() : "") + " " + this.getAchternaam()
+                + " straat: " + adres.getStraat();
     }
 }

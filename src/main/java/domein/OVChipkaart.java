@@ -1,16 +1,25 @@
-package model;
+package domein;
 
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "ov_chipkaart")
 public class OVChipkaart {
+    @Id
+    @Column(name = "kaart_nummer")
     private int kaart_nummer;
     private Date geldig_tot;
     private int klasse;
     private double saldo;
+
+    @ManyToOne
+    @JoinColumn(name = "reiziger_id")
     private Reiziger reiziger;
 
+    @ManyToMany(mappedBy = "ov_chipkaart")
     private List<Product> producten = new ArrayList<>();
 
     public OVChipkaart (int kaart_nummer, Date geldig_tot, int klasse, double saldo, Reiziger reiziger){
@@ -19,6 +28,10 @@ public class OVChipkaart {
         this.klasse = klasse;
         this.saldo = saldo;
         this.reiziger = reiziger;
+    }
+
+    public OVChipkaart() {
+
     }
 
     public int getKaart_nummer() {

@@ -1,7 +1,7 @@
 package data.dao;
 
-import model.Adres;
-import model.Reiziger;
+import domein.Adres;
+import domein.Reiziger;
 
 import java.sql.*;
 import java.util.ArrayList;
