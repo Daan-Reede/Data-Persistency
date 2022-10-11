@@ -17,8 +17,8 @@ public class Product {
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "ov_chipkaart_product",
-            joinColumns = { @JoinColumn(name = "kaart_nummer") },
-            inverseJoinColumns = { @JoinColumn(name = "product_nummer") }
+            joinColumns = { @JoinColumn(name = "product_nummer") },
+            inverseJoinColumns = { @JoinColumn(name = "kaart_nummer ") }
     )
     private List<OVChipkaart> ov_chipkaart = new ArrayList<>();
 
@@ -68,6 +68,10 @@ public class Product {
 
     public void setOv_chipkaart(List<OVChipkaart> ovChipKaarten) {
         this.ov_chipkaart = ovChipKaarten;
+    }
+
+    public void addOv(OVChipkaart ovChipkaart) {
+        this.ov_chipkaart.add(ovChipkaart);
     }
 
     public List<OVChipkaart> getOv_chipkaart() {

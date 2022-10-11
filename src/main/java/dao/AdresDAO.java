@@ -1,4 +1,4 @@
-package data.dao;
+package dao;
 
 import domein.Adres;
 import domein.Reiziger;
@@ -10,7 +10,9 @@ interface AdresDAO {
     boolean update(Adres adres);
     boolean delete(Adres adres);
 
-    Adres findByReiziger(Reiziger reiziger);
-
-    List<Adres> findAll();
+    Adres findById(Adres adres);
+//
+//    Adres findByReiziger(Reiziger reiziger);
+//
+//    List<Adres> findAll();
 }

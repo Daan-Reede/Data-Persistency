@@ -19,7 +19,7 @@ public class OVChipkaart {
     @JoinColumn(name = "reiziger_id")
     private Reiziger reiziger;
 
-    @ManyToMany(mappedBy = "ov_chipkaart")
+    @ManyToMany(mappedBy = "ov_chipkaart", cascade = CascadeType.ALL)
     private List<Product> producten = new ArrayList<>();
 
     public OVChipkaart (int kaart_nummer, Date geldig_tot, int klasse, double saldo, Reiziger reiziger){

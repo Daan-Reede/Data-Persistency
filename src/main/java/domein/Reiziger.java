@@ -17,10 +17,10 @@ public class Reiziger {
     private String achternaam;
     private Date geboortedatum;
 
-    @OneToOne(mappedBy = "reiziger")
+    @OneToOne(mappedBy = "reiziger", cascade = CascadeType.ALL)
     private Adres adres;
 
-    @OneToMany(mappedBy = "reiziger")
+    @OneToMany(mappedBy = "reiziger", cascade = CascadeType.ALL)
     private List<OVChipkaart> OVChipkaarten = new ArrayList<>();
 
     public Reiziger(int id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum){
@@ -31,8 +31,16 @@ public class Reiziger {
         this.geboortedatum = geboortedatum;
     }
 
+    public Adres getAdres() {
+        return adres;
+    }
+
     public Reiziger() {
 
+    }
+
+    public void setAdres(Adres adres) {
+        this.adres = adres;
     }
 
     public int getId() {
@@ -100,4 +108,5 @@ public class Reiziger {
         return "Reiziger " + this.getVoorletters() + "." + (this.getTussenvoegsel() != null ? this.getTussenvoegsel() : "") + " " + this.getAchternaam()
                 + " straat: " + adres.getStraat();
     }
+
 }
